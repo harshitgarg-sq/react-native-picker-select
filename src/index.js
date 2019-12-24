@@ -387,16 +387,31 @@ export default class RNPickerSelect extends PureComponent {
 
         return (
             <View pointerEvents="box-only" style={containerStyle}>
-                <TextInput
-                    style={[
-                        Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
-                        this.getPlaceholderStyle(),
-                    ]}
-                    value={this.state.selectedItem.label}
-                    ref={this.setInputRef}
-                    editable={false}
-                    {...textInputProps}
-                />
+                {Platform.OS === 'ios' ? (
+                    <TextInput
+                        style={[
+                            style.inputIOS,
+                            this.getPlaceholderStyle(),
+                            style.inputIOSPickerView
+                        ]}
+                        value={this.state.selectedItem.label}
+                        ref={this.setInputRef}
+                        editable={false}
+                        {...textInputProps}
+                    />
+                ) : (
+                        <Text
+                            style={[
+                                style.inputAndroidPickerView,
+                                this.getPlaceholderStyle(),
+                            ]}
+                            ref={this.setInputRef}
+                            editable={false}
+                            {...textInputProps}
+                        >
+                            {this.state.selectedItem.label}
+                        </Text>
+                    )}
                 {this.renderIcon()}
             </View>
         );
@@ -474,7 +489,6 @@ export default class RNPickerSelect extends PureComponent {
                 >
                     {this.renderPickerItems()}
                 </Picker>
-                {this.renderIcon()}
             </View>
         );
     }
